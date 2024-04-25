@@ -22,7 +22,7 @@ module.exports = {
   async execute(message) {
     if(!message.guild) return
     Schema.findOne({ Guild: message?.guild.id }, async (err, data) => {
-      if (!data) return;
+      if (!data) return console.log('No data');
       let levelingChannel = data.Channel;
 
       if (!message.guild) return;

@@ -64,15 +64,15 @@ module.exports = {
         try {
             switch (sub) {
                 case "add":
-                    await Levels.appendLevel(target.id, guildId, amount);
+                    await Levels.appendLevel(target.id, guildId, amount-1);
                     embed.setDescription(`Added ${amount} level(s) to ${target}.`).setColor("#36CE36").setTimestamp();
                     break;
                 case "remove":
-                    await Levels.subtractLevel(target.id, guildId, amount);
+                    await Levels.subtractLevel(target.id, guildId, amount-1);
                     embed.setDescription(`Removed ${amount} level(s) from ${target}.`).setColor("#CE3636").setTimestamp();
                     break;
                 case "set":
-                    await Levels.setLevel(target.id, guildId, amount);
+                    await Levels.setLevel(target.id, guildId, amount-1);
                     embed.setDescription(`Set ${target}'s level(s) to ${amount}.`).setColor("#0099FF").setTimestamp();
                     break;
             }
