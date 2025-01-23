@@ -5,6 +5,7 @@ const {
 } = require("discord.js");
 const Levels = require("discord.js-leveling");
 const { profileImage } = require("discord-arts");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -50,7 +51,7 @@ module.exports = {
     const XPForThisLevel = (await levelUser.xp) - Levels.xpFor(levelUser.level);
 
     if (!levelUser)
-      return interaction.reply({
+    return interaction.followUp({
         content: "This user isn't ranked yet.",
         ephemeral: true,
       });

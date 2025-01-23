@@ -40,7 +40,7 @@ module.exports = {
     const description = options.getString("description");
 
     const embed = new EmbedBuilder()
-      .setColor("#0099FF")
+      .setColor(Blue)
       .setTitle(`${description}`)
       .setFooter({ text: interaction.user.username })
       .setTimestamp();

@@ -1,85 +1,107 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  PermissionFlagsBits,
+} = require("discord.js");
 const Levels = require("discord.js-leveling");
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName("xp")
-        .setDescription("Adjust a user's xp.")
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .setDMPermission(false)
-        .addSubcommand(subcommand =>
-            subcommand.setName("add")
-                .setDescription("Add xp to a user.")
-                .addUserOption(option =>
-                    option.setName("target")
-                        .setDescription("Select a user.")
-                        .setRequired(true)
-                )
-                .addIntegerOption(option =>
-                    option.setName("amount")
-                        .setDescription("Amount of xp.")
-                        .setMinValue(0)
-                        .setRequired(true)
-                )
+  data: new SlashCommandBuilder()
+    .setName("xp")
+    .setDescription("Adjust a user's xp.")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDMPermission(false)
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("add")
+        .setDescription("Add xp to a user.")
+        .addUserOption((option) =>
+          option
+            .setName("target")
+            .setDescription("Select a user.")
+            .setRequired(true)
         )
-        .addSubcommand(subcommand =>
-            subcommand.setName("remove")
-                .setDescription("Remove xp from a user.")
-                .addUserOption(option =>
-                    option.setName("target")
-                        .setDescription("Select a user.")
-                        .setRequired(true)
-                )
-                .addIntegerOption(option =>
-                    option.setName("amount")
-                        .setDescription("Amount of xp.")
-                        .setMinValue(0)
-                        .setRequired(true)
-                )
+        .addIntegerOption((option) =>
+          option
+            .setName("amount")
+            .setDescription("Amount of xp.")
+            .setMinValue(0)
+            .setRequired(true)
         )
-        .addSubcommand(subcommand =>
-            subcommand.setName("set")
-                .setDescription("Set a user's xp.")
-                .addUserOption(option =>
-                    option.setName("target")
-                        .setDescription("Select a user.")
-                        .setRequired(true)
-                )
-                .addIntegerOption(option =>
-                    option.setName("amount")
-                        .setDescription("Amount of xp.")
-                        .setMinValue(0)
-                        .setRequired(true)
-                )
-        ),
-    async execute(interaction) {
-        const { options, guildId } = interaction;
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("remove")
+        .setDescription("Remove xp from a user.")
+        .addUserOption((option) =>
+          option
+            .setName("target")
+            .setDescription("Select a user.")
+            .setRequired(true)
+        )
+        .addIntegerOption((option) =>
+          option
+            .setName("amount")
+            .setDescription("Amount of xp.")
+            .setMinValue(0)
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("set")
+        .setDescription("Set a user's xp.")
+        .addUserOption((option) =>
+          option
+            .setName("target")
+            .setDescription("Select a user.")
+            .setRequired(true)
+        )
+        .addIntegerOption((option) =>
+          option
+            .setName("amount")
+            .setDescription("Amount of xp.")
+            .setMinValue(0)
+            .setRequired(true)
+        )
+    ),
+  async execute(interaction) {
+    const { options, guildId } = interaction;
 
-        const sub = options.getSubcommand();
-        const target = options.getUser("target");
-        const amount = options.getInteger("amount");
-        const embed = new EmbedBuilder();
+    const sub = options.getSubcommand();
+    const target = options.getUser("target");
+    const amount = options.getInteger("amount");
+    const embed = new EmbedBuilder();
 
-        try {
-            switch (sub) {
-                case "add":
-                    await Levels.appendXp(target.id, guildId, amount);
-                    embed.setDescription(`Added ${amount} xp to ${target}.`).setColor("#0099FF").setTimestamp();
-                    break;
-                case "remove":
-                    await Levels.subtractXp(target.id, guildId, amount);
-                    embed.setDescription(`Removed ${amount} xp from ${target}.`).setColor("#CE3636").setTimestamp();
-                    break;
-                case "set":
-                    await Levels.setXp(target.id, guildId, amount);
-                    embed.setDescription(`Set ${target}'s xp to ${amount}.`).setColor("#0099FF").setTimestamp();
-                    break;
-            }
-        } catch (err) {
-            console.log(err);
-        }
-
-        interaction.reply({ embeds: [embed], ephemeral: true });
+    try {
+      switch (sub) {
+        case "add":
+          await Levels.appendXp(target.id, guildId, amount);
+          embed
+            .setDescription(`Added ${amount} xp to ${target}.`)
+            .setColor(Blue)
+            .setTimestamp();
+          break;
+        case "remove":
+          await Levels.subtractXp(target.id, guildId, amount);
+          embed
+            .setDescription(`Removed ${amount} xp from ${target}.`)
+            .setColor(Red)
+            .setTimestamp();
+          break;
+        case "set":
+          await Levels.setXp(target.id, guildId, amount);
+          embed
+            .setDescription(`Set ${target}'s xp to ${amount}.`)
+            .setColor(Blue)
+            .setTimestamp();
+          break;
+      }
+    } catch (err) {
+      console.log(err);
     }
-}
+
+    interaction.reply({ embeds: [embed], ephemeral: true });
+  },
+};

@@ -39,7 +39,7 @@ module.exports = {
 
     if (Data) {
       Data.warns += 1;
-      Data.reason.push(`${message}`)
+      Data.reason.push(`${message}`);
       Data.save();
     } else {
       Data = new warnSchema({
@@ -60,62 +60,65 @@ module.exports = {
                 interaction.guild.name
             )
             .setDescription(`Warn Message: ${message}`)
-            .addFields({ name: "Warns:", value: `${Data.warns}` }, {name: "Expires", value: `In 3 days`})
-            
-          .setFooter({ text: '5+ warns in 3 days = Half day Timeout <3'})
+            .addFields(
+              { name: "Warns:", value: `${Data.warns}` },
+              { name: "Expires", value: `In 3 days` }
+            )
 
-            .setColor("#CE3636")
+            .setFooter({ text: "5+ warns in 3 days = Half day Timeout <3" })
+
+            .setColor(Red)
             .setTimestamp(),
         ],
       })
       .catch(() => {
-        interaction
-          .reply({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription(
-                  `<:error:1072081102644195358> | ${target} has their DM'S off`
-                )
-          .setColor("#CE3636"),
-
-            ],
-            ephemeral: true,
-          })
+        interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `<:error:1072081102644195358> | ${target} has their DM'S off`
+              )
+              .setColor(Red),
+          ],
+          ephemeral: true,
+        });
       });
 
-    await interaction.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setTitle(
-            `<:Discord_moderator:1063455264197586964> | Warned ${target.user.username}`
-          )
-          .setDescription(`Warn Message: ${message}`)
-          .addFields({ name: "Warns:", value: `${Data.warns}` })
-          .setColor("#36CE36"),
-      ],
-
-      ephemeral: true,
-    }).catch(() =>{
-      interaction.followUp({
+    await interaction
+      .reply({
         embeds: [
           new EmbedBuilder()
-            .setDescription(
+            .setTitle(
               `<:Discord_moderator:1063455264197586964> | Warned ${target.user.username}`
             )
+            .setDescription(`Warn Message: ${message}`)
             .addFields({ name: "Warns:", value: `${Data.warns}` })
-            .setColor("#36CE36"),
+            .setColor(Green),
         ],
-  
+
         ephemeral: true,
       })
-    })
-    if(Data.warns > 5){
-      target.timeout(43200000, '5 Warns').catch(() =>{
-        console.log("Can't Timeout")
-      })
-      Data.warns = 0
-      Data.reason = []
-      Data.save()
+      .catch(() => {
+        interaction.followUp({
+          embeds: [
+            new EmbedBuilder()
+              .setDescription(
+                `<:Discord_moderator:1063455264197586964> | Warned ${target.user.username}`
+              )
+              .addFields({ name: "Warns:", value: `${Data.warns}` })
+              .setColor(Green),
+          ],
+
+          ephemeral: true,
+        });
+      });
+    if (Data.warns > 5) {
+      target.timeout(43200000, "5 Warns").catch(() => {
+        console.log("Can't Timeout");
+      });
+      Data.warns = 0;
+      Data.reason = [];
+      Data.save();
     }
   },
 };

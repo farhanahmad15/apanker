@@ -10,7 +10,7 @@ module.exports = {
     async execute(interaction){
         const unm = interaction.options.getUser('user')
        const user = interaction.user.id
-       interaction.reply({ embeds:[ new EmbedBuilder().setDescription(`<@${user}> apologizes to ${unm} `).setColor("#f05c51")
+       interaction.reply({ embeds:[ new EmbedBuilder().setDescription(`<@${user}> apologizes to ${unm} `).setColor(Yellow)
       ] })
     }
 }

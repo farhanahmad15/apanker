@@ -7,7 +7,7 @@ const {
   Events,
 } = require("discord.js");
 const Schema = require("../../Models/Suggestion");
-var timeout =[]
+var timeout = [];
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
@@ -29,7 +29,11 @@ module.exports = {
     .setDMPermission(false),
 
   async execute(interaction, client) {
-    if (timeout.includes(interaction.user.id)) return await interaction.reply({content: 'You are on command cooldown, try again in 1 hour', ephemeral:true})
+    if (timeout.includes(interaction.user.id))
+      return await interaction.reply({
+        content: "You are on command cooldown, try again in 1 hour",
+        ephemeral: true,
+      });
     Schema.findOne({ Guild: interaction.guild.id }, async (err, data) => {
       if (!data) return;
       let checkingChannel = data.checkingChannel;
@@ -47,7 +51,7 @@ module.exports = {
       const description = options.getString("description");
 
       const embed = new EmbedBuilder()
-        .setColor("#36CE36")
+        .setColor(Green)
         .setDescription(`A suggestion made by ${member}`)
         .addFields(
           { name: "Suggestion", value: `${name}` },
@@ -67,14 +71,11 @@ module.exports = {
           ":white_check_mark: | Your suggestion has been succesfully submitted for the moderators to check.",
         ephemeral: true,
       });
-
-      
     });
 
-    timeout.push(interaction.user.id)
-    setTimeout(() =>{
-      timeout.shift()
-    }, 3600000)
-    
+    timeout.push(interaction.user.id);
+    setTimeout(() => {
+      timeout.shift();
+    }, 3600000);
   },
 };

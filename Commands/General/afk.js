@@ -26,9 +26,8 @@ module.exports = {
               embeds: [
                 new EmbedBuilder()
                   .setDescription("You are **not** AFK anymore.")
-                  .setColor("#FFAA00"),
+                  .setColor(Yellow),
               ],
-             
             });
           } else {
             data.Afk = true;
@@ -38,9 +37,8 @@ module.exports = {
             embeds: [
               new EmbedBuilder()
                 .setDescription("You are now **AFK**.")
-                .setColor("#0099FF"),
+                .setColor(Blue),
             ],
-           
           });
         } catch (e) {
           console.log(e);

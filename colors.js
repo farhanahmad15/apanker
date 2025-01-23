@@ -1,7 +1,8 @@
 // Discord Official Colors
-module.exports ={
-    Red : "#CE3636",
-    Blue : "#0099FF",
-    Green : "#36CE36",
-    Yellow : "#FFAA00"
-   }
+module.exports = {
+  Red: "#ED4245",
+  Blue: "#5865F2",
+  Green: "#57F287",
+  Yellow: "#FEE75C",
+};
+

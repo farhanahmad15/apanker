@@ -16,7 +16,7 @@ const suggestionSchema = require("../../Models/Suggestion");
 const levelingSchema = require("../../Models/Leveling");
 const muteSchema = require("../../Models/Mute");
 const logSchema = require("../../Models/Logs");
-const TicketSetup = require("../../Models/TicketSetup"); 
+const TicketSetup = require("../../Models/TicketSetup");
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
@@ -238,7 +238,7 @@ module.exports = {
         break;
       case "verify":
         {
-            // TODO: FIX THE MODAL THING
+          // TODO: FIX THE MODAL THING
           const channel = interaction.options.getChannel("channel");
           const verifiedRole = interaction.options.getRole("verifiedrole");
           const unverified = interaction.options.getRole("unverifiedrole");
@@ -269,18 +269,18 @@ module.exports = {
           );
 
           const modal = new ModalBuilder()
-          .setCustomId("verifymessage")
-          .setTitle(`The message you want to display with the rule`)
-          .addComponents(
-            new ActionRowBuilder().addComponents(
-              new TextInputBuilder()
-                .setCustomId("verifymessageInput")
-                .setLabel(`Put something here like rules`)
-                .setStyle(TextInputStyle.Paragraph)
-            )
-          );
+            .setCustomId("verifymessage")
+            .setTitle(`The message you want to display with the rule`)
+            .addComponents(
+              new ActionRowBuilder().addComponents(
+                new TextInputBuilder()
+                  .setCustomId("verifymessageInput")
+                  .setLabel(`Put something here like rules`)
+                  .setStyle(TextInputStyle.Paragraph)
+              )
+            );
 
-        await interaction.showModal(modal).catch(() => {});
+          await interaction.showModal(modal).catch(() => {});
         }
         break;
       case "suggestion":
@@ -319,7 +319,7 @@ module.exports = {
         break;
       case "leveling":
         {
-        const levelingChannel = interaction.options.getChannel('channel')
+          const levelingChannel = interaction.options.getChannel("channel");
 
           if (
             !interaction.guild.members.me.permissions.has(
@@ -449,7 +449,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Ticket Support is here!")
             .setDescription(description)
-            .setColor("#36CE36");
+            .setColor(Green);
 
           await guild.channels.cache.get(channel.id).send({
             embeds: [embed],
@@ -463,7 +463,7 @@ module.exports = {
         } catch (err) {
           console.log(err);
           const errEmbed = new EmbedBuilder()
-            .setColor("#CE3636")
+            .setColor(Red)
             .setDescription("Something went wrong...");
 
           return interaction.reply({ embeds: [errEmbed], ephemeral: true });

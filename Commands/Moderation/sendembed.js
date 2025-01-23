@@ -5,7 +5,8 @@ const {
   ModalBuilder,
   ActionRowBuilder,
   TextInputStyle,
-  TextInputBuilder, Events
+  TextInputBuilder,
+  Events,
 } = require("discord.js");
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
@@ -32,38 +33,34 @@ module.exports = {
           { name: "Green", value: "Green" },
           { name: "Yellow", value: "Yellow" }
         )
-    )
-   ,
-
+    ),
   async execute(interaction, client) {
     const channel = interaction.options.getChannel("channel");
 
-    const embed = new EmbedBuilder()
-      .setAuthor({
-        name: `${interaction.user.username}`,
-        iconURL: `${interaction.member.displayAvatarURL({ dynamic: true })}`,
-      })
-     
+    const embed = new EmbedBuilder().setAuthor({
+      name: `${interaction.user.username}`,
+      iconURL: `${interaction.member.displayAvatarURL({ dynamic: true })}`,
+    });
 
     switch (interaction.options.getString("color")) {
       case "Red":
         {
-          embed.setColor("#CE3636");
+          embed.setColor(Red);
         }
         break;
       case "Blue":
         {
-          embed.setColor("#0099FF");
+          embed.setColor(Blue);
         }
         break;
       case "Green":
         {
-          embed.setColor("#36CE36");
+          embed.setColor(Green);
         }
         break;
       case "Yellow":
         {
-          embed.setColor("#FFAA00");
+          embed.setColor(Yellow);
         }
         break;
     }
@@ -72,66 +69,69 @@ module.exports = {
 
     // await serverthing.send({ embeds: [embed] }).catch(() =>{})
 
-    
     const modal = new ModalBuilder()
-        .setCustomId("embed")
-        .setTitle(`The contents of the embed.`)
-        .addComponents(
-          new ActionRowBuilder().addComponents(
-            new TextInputBuilder()
+      .setCustomId("embed")
+      .setTitle(`The contents of the embed.`)
+      .addComponents(
+        new ActionRowBuilder().addComponents(
+          new TextInputBuilder()
             .setCustomId("title")
             .setLabel(`Title`)
             .setStyle(TextInputStyle.Short)
-            
-            ),
-            new ActionRowBuilder().addComponents(
-              new TextInputBuilder()
-              .setCustomId("description")
-              .setLabel(`Description`)
-              .setStyle(TextInputStyle.Paragraph)
-              
-              ),new ActionRowBuilder().addComponents(
-                new TextInputBuilder()
-              .setCustomId("image")
-              .setLabel(`Image Link`)
-              .setStyle(TextInputStyle.Short)
-              .setRequired(false)
-            
-          ),
-          new ActionRowBuilder().addComponents(
-            new TextInputBuilder()
+        ),
+        new ActionRowBuilder().addComponents(
+          new TextInputBuilder()
+            .setCustomId("description")
+            .setLabel(`Description`)
+            .setStyle(TextInputStyle.Paragraph)
+        ),
+        new ActionRowBuilder().addComponents(
+          new TextInputBuilder()
+            .setCustomId("image")
+            .setLabel(`Image Link`)
+            .setStyle(TextInputStyle.Short)
+            .setRequired(false)
+        ),
+        new ActionRowBuilder().addComponents(
+          new TextInputBuilder()
             .setCustomId("footer")
             .setLabel(`Footer`)
             .setStyle(TextInputStyle.Short)
-            
-            ),
-            );
-            
-            await interaction.showModal(modal).catch((e) => {console.error(e)});
+        )
+      );
 
-            client.on(Events.InteractionCreate, async (interaction) =>{
-              if(interaction.isModalSubmit()){
-                if(interaction.customId === 'embed'){
-                const title = interaction.fields.getTextInputValue("title") || 'No Title'
-                const description = interaction.fields.getTextInputValue("description") || 'No Description'
-                const image = interaction.fields.getTextInputValue("image") 
-                const footer = interaction.fields.getTextInputValue("footer") || 'No Footer'
-                  
-                embed
-                .setTitle(title)
-                .setDescription(description)
-                .setFooter({text: footer})
-                if(image){
-                  embed.setImage(image)
-                }
-                
+    await interaction.showModal(modal).catch((e) => {
+      console.error(e);
+    });
 
-                await serverthing.send({embeds: [embed]})
+    client.on(Events.InteractionCreate, async (interaction) => {
+      if (interaction.isModalSubmit()) {
+        if (interaction.customId === "embed") {
+          const title =
+            interaction.fields.getTextInputValue("title") || "No Title";
+          const description =
+            interaction.fields.getTextInputValue("description") ||
+            "No Description";
+          const image = interaction.fields.getTextInputValue("image");
+          const footer =
+            interaction.fields.getTextInputValue("footer") || "No Footer";
 
-                await interaction.reply({content: `Embed Successfully sent to ${channel}`, ephemeral: true})
-                }
-              }
-            })
-            
-          },
+          embed
+            .setTitle(title)
+            .setDescription(description)
+            .setFooter({ text: footer });
+          if (image) {
+            embed.setImage(image);
+          }
+
+          await serverthing.send({ embeds: [embed] });
+
+          await interaction.reply({
+            content: `Embed Successfully sent to ${channel}`,
+            ephemeral: true,
+          });
+        }
+      }
+    });
+  },
 };
