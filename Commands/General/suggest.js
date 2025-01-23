@@ -8,6 +8,7 @@ const {
 } = require("discord.js");
 const Schema = require("../../Models/Suggestion");
 var timeout =[]
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
   data: new SlashCommandBuilder()

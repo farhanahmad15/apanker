@@ -1,5 +1,7 @@
 const { Client, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const Schema = require('../../Models/Mute')
+const { Red, Blue, Green, Yellow } = require("../../colors");
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("noxp")

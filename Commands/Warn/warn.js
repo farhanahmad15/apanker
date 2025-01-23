@@ -5,6 +5,7 @@ const {
 } = require("discord.js");
 const ms = require("ms");
 const warnSchema = require("../../Models/Warns");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
   data: new SlashCommandBuilder()

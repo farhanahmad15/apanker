@@ -1,5 +1,6 @@
 const {GuildMember, Embed, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder} = require("discord.js");
 const Schema = require("../../Models/Welcome");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
     name: "guildMemberAdd",

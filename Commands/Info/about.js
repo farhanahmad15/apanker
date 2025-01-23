@@ -28,16 +28,31 @@ module.exports ={
             else return days + " Days"
           }
         const embed = new EmbedBuilder()
-        .setAuthor({ name: 'Fome #6462', iconURL: 'https://yt3.ggpht.com/TQSMCbxhiRRZzmVcwDF0bYQH5XN6ivZP2ygkwCBsLdooIOq4wrJKCkVu-FoXCzMkgWES6Mu8Eg=s88-c-k-c0x00ffffff-no-rj', url: 'https://fomesserver.web.app' })
-        .setTitle(`${interaction.client.user.username}`)
-        .setDescription(`${interaction.client.user.username} is a multipurpose Discord bot which at first was built for fun but later I made it an actual functioning bot. This bot can replace most of your bots in your server and the best part of all this bot is completely free to use. It also has various features like Moderation, Leveling System and more. `)
-        .addFields(
-            {name: 'Total Servers', value: `${interaction.client.guilds.cache.size}`},
+          .setAuthor({
+            name: "someonetookfome",
+            iconURL:
+              "https://cdn.discordapp.com/avatars/849526087171571764/cabfafc122b713031dcfaca35f1f8cf3.webp?size=80",
+            url: "https://fomesserver.web.app",
+          })
+          .setTitle(`${interaction.client.user.username}`)
+          .setDescription(
+            `${interaction.client.user.username} is a multipurpose Discord bot which at first was built for fun but later I made it an actual functioning bot. This bot can replace most of your bots in your server and the best part of all this bot is completely free to use. It also has various features like Moderation, Leveling System and more. `
+          )
+          .addFields(
+            {
+              name: "Total Servers",
+              value: `${interaction.client.guilds.cache.size}`,
+            },
             // {name: 'Total Shards', value: `${interaction.client.shards.size}`},
-            {name: 'Hardware Usage', value: `Cpu Usage: ${cpuUsage.toFixed(2)}%, Ram Usage: ${ramUsageMiB.toFixed(2)} MiB`},
-            {name: 'Uptime', value: `${msToTime(m)}`}
-        )
-        .setFooter({text: 'Made with ♥ using discord.js v14'})
+            {
+              name: "Hardware Usage",
+              value: `Cpu Usage: ${cpuUsage.toFixed(
+                2
+              )}%, Ram Usage: ${ramUsageMiB.toFixed(2)} MiB`,
+            },
+            { name: "Uptime", value: `${msToTime(m)}` }
+          )
+          .setFooter({ text: "Made with ♥ using discord.js v14" });
 
         const row = new ActionRowBuilder()
         .addComponents(

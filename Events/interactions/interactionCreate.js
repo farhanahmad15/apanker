@@ -11,6 +11,7 @@ const {
 } = require("discord.js");
 const Schema = require("../../Models/Verify");
 const suggestSchema = require("../../Models/Suggestion");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 const usercontext = require("../../Commands/Moderation/changenickcontext");
 

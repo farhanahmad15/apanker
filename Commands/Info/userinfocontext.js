@@ -1,4 +1,6 @@
 const {ContextMenuCommandBuilder, ApplicationCommandType, PermissionFlagsBits, EmbedBuilder} = require('discord.js')
+const { Red, Blue, Green, Yellow } = require("../../colors");
+
 module.exports = {
     data: new ContextMenuCommandBuilder()
 	.setName('User Information')

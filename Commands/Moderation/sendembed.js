@@ -7,6 +7,7 @@ const {
   TextInputStyle,
   TextInputBuilder, Events
 } = require("discord.js");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
   data: new SlashCommandBuilder()

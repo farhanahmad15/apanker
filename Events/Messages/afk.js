@@ -1,5 +1,7 @@
 const afkModel = require("../../Models/Afk");
 const {EmbedBuilder} = require('discord.js')
+const { Red, Blue, Green, Yellow } = require("../../colors");
+
 module.exports = {
     name: 'messageCreate',
     async execute(message){

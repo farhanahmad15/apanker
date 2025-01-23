@@ -1,4 +1,5 @@
 const {ButtonInteraction, EmbedBuilder, PermissionFlagsBits}  = require('discord.js')
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 const {createTranscript} = require('discord-html-transcripts')
 const TicketSetup = require('../../Models/TicketSetup')

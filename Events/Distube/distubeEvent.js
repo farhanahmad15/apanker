@@ -1,5 +1,6 @@
 const client = require("../../index.js");
 const { EmbedBuilder } = require("discord.js");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 const status = (queue) =>
   `Volume: \`${queue.volume}%\` | Filter: \`${

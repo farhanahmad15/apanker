@@ -1,6 +1,7 @@
 const { VolumeInterface } = require("discord.js");
 const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits, VoiceChannel, GuildEmoji } = require("discord.js");
 const client = require("../../index");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
     data: new SlashCommandBuilder()

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const ticketSchema = require("../../Models/Ticket");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
     data: new SlashCommandBuilder()

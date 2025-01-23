@@ -1,5 +1,6 @@
 const { Client, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const ms = require("ms");
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
     data: new SlashCommandBuilder()

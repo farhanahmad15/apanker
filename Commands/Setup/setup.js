@@ -17,6 +17,7 @@ const levelingSchema = require("../../Models/Leveling");
 const muteSchema = require("../../Models/Mute");
 const logSchema = require("../../Models/Logs");
 const TicketSetup = require("../../Models/TicketSetup"); 
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
   data: new SlashCommandBuilder()

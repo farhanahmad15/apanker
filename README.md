@@ -1,4 +1,3 @@
-# apanker-v2
-Main discord bot for server which has all the commands
-
+# Apanker-v2
+State-of-the-Art Multipurpose Discord Bot
 

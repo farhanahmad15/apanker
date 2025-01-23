@@ -1,5 +1,6 @@
 const {SlashCommandBuilder,
     EmbedBuilder} = require('discord.js')
+const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
     data: new SlashCommandBuilder().setName('thanks').setDescription('Thank someone').addUserOption((option) =>

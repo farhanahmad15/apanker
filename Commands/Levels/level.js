@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const Levels = require("discord.js-leveling");
+const {Red,Blue, Green, Yellow} = require('../../colors')
 
 module.exports = {
     data: new SlashCommandBuilder()
