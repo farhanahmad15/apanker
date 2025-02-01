@@ -65,7 +65,7 @@ module.exports = {
               { name: "Expires", value: `In 3 days` }
             )
 
-            .setFooter({ text: "5+ warns in 3 days = Half day Timeout <3" })
+            .setFooter({ text: "5+ warns in 3 days = Half day Timeout" })
 
             .setColor(Red)
             .setTimestamp(),

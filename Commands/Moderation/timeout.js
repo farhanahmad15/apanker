@@ -5,7 +5,7 @@ const { Red, Blue, Green, Yellow } = require("../../colors");
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("timeout")
-        .setDescription("Timeout a member in the guild and inform them.")
+        .setDescription("Timeout a member in the guild.")
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addUserOption(option =>
             option.setName("target")
