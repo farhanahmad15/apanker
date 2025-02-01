@@ -4,7 +4,7 @@ const {
   AttachmentBuilder,
 } = require("discord.js");
 const Levels = require("discord.js-leveling");
-const { profileImage } = require("discord-arts");
+const { Profile } = require("discord-arts");
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
@@ -50,14 +50,14 @@ module.exports = {
     const XPNeededForNextLevel = nextXpAmount - levelUser.xp;
     const XPForThisLevel = (await levelUser.xp) - Levels.xpFor(levelUser.level);
 
-    if (!levelUser)
-    return interaction.followUp({
+    if (!levelUser) return interaction.followUp({
         content: "This user isn't ranked yet.",
         ephemeral: true,
       });
     const avatar = await member.displayAvatarURL();
+      console.log(member.id)
 
-    const buffer = await profileImage(member.id, {
+    const buffer = await Profile(member.id, {
       presenceStatus: `${
         statmember && statmember.presence
           ? statmember.presence.status || statmember.presence.activity?.type
@@ -81,9 +81,10 @@ module.exports = {
       await interaction.followUp({ files: [buffer] });
     } catch (e) {
       interaction.followUp({
-        content: `Something went wrong please try again`,
+        content: `Something went wrong please try again later`,
         ephemeral: true,
       });
+      console.log('something went wrong' , e)
     }
   },
 };
