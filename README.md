@@ -21,7 +21,7 @@ Apanker is a powerful and versatile Discord bot built using **discord.js v14**. 
 | `/afk` | Sets your status as AFK, so that it notifies others users when they ping you |
 | `/apologize` | Sends an apology message to specified user|
 | `/avatar` | Displays the avatar of a user |
-| `/dadjoke` | Tells a random dad joke |
+| `/dadjoke*` | Tells a random dad joke |
 | `/dice` | Rolls a dice |
 | `/suggest` | Suggests an improvement for the server (sent for review first, Admins can accept or deny it) |
 | `/thank` | Sends a thank-you message to specified user|
@@ -91,6 +91,8 @@ Apanker is a powerful and versatile Discord bot built using **discord.js v14**. 
 | `/ticket` | (ADMIN ONLY) Ticket management actions |
 | `/ticket add` | Adds a user to an existing ticket |
 | `/ticket remove` | Removes a user from an existing ticket |
+
+**-Needs Improvement*
 
 ## Installation
 ### Prerequisites
