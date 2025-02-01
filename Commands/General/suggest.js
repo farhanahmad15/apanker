@@ -35,7 +35,7 @@ module.exports = {
         ephemeral: true,
       });
     Schema.findOne({ Guild: interaction.guild.id }, async (err, data) => {
-      if (!data) return;
+      if (!data) return interaction.reply({content: "This function has not been set up in this server.", ephemeral: true});
       let checkingChannel = data.checkingChannel;
 
       const confirm = new ButtonBuilder()

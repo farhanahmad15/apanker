@@ -33,7 +33,6 @@ Apanker is a powerful and versatile Discord bot built using **discord.js v14**. 
 | `/about` | Provides information about the bot |
 | `/help` | Displays a list of available commands |
 | `/poll` | (ADMIN ONLY) Creates a poll |
-| `/rules` | Displays the server rules |
 | `/userinfo` | Shows information about a user |
 | Right-click `userinfo` | Right-click version of the above command |
 

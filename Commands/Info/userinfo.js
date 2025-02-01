@@ -24,7 +24,7 @@ module.exports ={
         .setAuthor({name: tag, iconURL: icon})
         .addFields(
             {name: "Name", value: `${user}`},
-            {name: "Roles[${member.roles.cache.size}] <:roles:1072070704486428743> ", value: `${member.roles.cache.map(r => r).join(`, ` )}`},
+            {name: `Roles [${member.roles.cache.size}] <:roles:1072070704486428743> `, value: `${member.roles.cache.map(r => r).join(`, ` )}`},
             {name: 'Joined Server', value: `<t:${parseInt(member.joinedAt / 1000)}:R>`, inline: true},
             {name: 'Joined Discord', value: `<t:${parseInt(member.user.createdAt / 1000)}:R>`, inline: true},
 
