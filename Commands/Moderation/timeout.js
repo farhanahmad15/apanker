@@ -4,8 +4,8 @@ const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("mute")
-        .setDescription("Mute a member from the guild.")
+        .setName("timeout")
+        .setDescription("Timeout a member in the guild and inform them.")
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addUserOption(option =>
             option.setName("target")
@@ -14,12 +14,12 @@ module.exports = {
         )
         .addStringOption(option =>
             option.setName("time")
-                .setDescription("How long should the mute last?")
+                .setDescription("How long should the timout last?")
                 .setRequired(true)
         )
         .addStringOption(option =>
             option.setName("reason")
-                .setDescription("What is the reason of the mute?")
+                .setDescription("What is the reason of the timeout?")
         ).setDMPermission(false),
 
     async execute(interaction) {

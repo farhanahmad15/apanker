@@ -18,7 +18,11 @@ module.exports = {
 
         const user = options.getMember("target");
         Schema.findOne({ Guild: interaction.guild.id }, async (err, data) => {
-            if (!data) return interaction.reply({content: 'Error please setup the muting system', ephemeral: true});
+            if (!data) return interaction.reply({
+              content: "This function has not been set up in this server.",
+              ephemeral: true,
+            });
+            
                 let Role = data.Role;
   
                 const role = await interaction.guild.roles.cache.get(Role); // verified role id
