@@ -15,7 +15,6 @@ const verifySchema = require("../../Models/Verify");
 const suggestionSchema = require("../../Models/Suggestion");
 const levelingSchema = require("../../Models/Leveling");
 const muteSchema = require("../../Models/Mute");
-const logSchema = require("../../Models/Logs");
 const TicketSetup = require("../../Models/TicketSetup");
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
