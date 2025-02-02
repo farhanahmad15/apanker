@@ -390,15 +390,31 @@ module.exports = {
           const everyone = options.getRole("everyone");
 
           const description = options.getString("description");
-          const firstbutton = options.getString("firstbutton").split(",");
-          const secondbutton = options.getString("secondbutton").split(",");
-          const thirdbutton = options.getString("thirdbutton").split(",");
-          const fourthbutton = options.getString("fourthbutton").split(",");
+          const firstbutton = options
+            .getString("firstbutton")
+            .split(",")
+            .map((s) => s.trim());
+          const secondbutton = options
+            .getString("secondbutton")
+            .split(",")
+            .map((s) => s.trim());
+          const thirdbutton = options
+            .getString("thirdbutton")
+            .split(",")
+            .map((s) => s.trim());
+          const fourthbutton = options
+            .getString("fourthbutton")
+            .split(",")
+            .map((s) => s.trim());
 
+          console.log(``);
           const emoji1 = firstbutton[1];
           const emoji2 = secondbutton[1];
           const emoji3 = thirdbutton[1];
           const emoji4 = fourthbutton[1];
+          console.log(
+            `Parsed emojis: ${emoji1}, ${emoji2}, ${emoji3}, ${emoji4}`
+          );
 
           await TicketSetup.findOneAndUpdate(
             { GuildID: guild.id },

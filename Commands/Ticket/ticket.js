@@ -41,96 +41,131 @@ module.exports = {
 
     switch (action) {
       case "add":
-        ticketSchema.findOne(
-          { GuildID: guildId, ChannelID: channel.id },
-          async (err, data) => {
-            if (err) throw err;
-            if (!data)
-              return interaction.reply({
-                embeds: [
-                  embed
-                    .setColor(Red)
-                    .setDescription("Something went wrong. Try again later."),
-                ],
-                ephemeral: true,
-              });
+        try {
+          const data = await ticketSchema.findOne({
+            GuildID: guildId,
+            ChannelID: channel.id,
+          });
 
-            if (data.MembersID.includes(member.id))
-              return interaction.reply({
-                embeds: [
-                  embed
-                    .setColor(Red)
-                    .setDescription("Something went wrong. Try again later."),
-                ],
-                ephemeral: true,
-              });
-
-            data.MembersID.push(member.id);
-
-            channel.permissionOverwrites.edit(member.id, {
-              SendMessages: true,
-              ViewChannel: true,
-              ReadMessageHistory: true,
-            });
-
-            interaction.reply({
+          if (!data) {
+            return interaction.reply({
               embeds: [
                 embed
-                  .setColor(Green)
-                  .setDescription(`${member} has been added to the ticket.`),
+                  .setColor(Red)
+                  .setDescription("Something went wrong. Try again later."),
               ],
+              ephemeral: true,
             });
-
-            data.save();
           }
-        );
+
+          if (data.MembersID.includes(member.id)) {
+            return interaction.reply({
+              embeds: [
+                embed
+                  .setColor(Red)
+                  .setDescription("It looks like the User already has a ticket."),
+              ],
+              ephemeral: true,
+            });
+          }
+
+          data.MembersID.push(member.id);
+
+          await channel.permissionOverwrites.edit(member.id, {
+            SendMessages: true,
+            ViewChannel: true,
+            ReadMessageHistory: true,
+          });
+
+          await interaction.reply({
+            embeds: [
+              embed
+                .setColor(Green)
+                .setDescription(`${member} has been added to the ticket.`),
+            ],
+          });
+
+          await data.save();
+        } catch (err) {
+          console.error(err);
+          interaction.reply({
+            embeds: [
+              embed
+                .setColor(Red)
+                .setDescription(
+                  "An error occurred while processing your request."
+                ),
+            ],
+            ephemeral: true,
+          });
+        }
         break;
       case "remove":
-        ticketSchema.findOne(
-          { GuildID: guildId, ChannelID: channel.id },
-          async (err, data) => {
-            if (err) throw err;
-            if (!data)
-              return interaction.reply({
-                embeds: [
-                  embed
-                    .setColor(Red)
-                    .setDescription("Something went wrong. Try again later."),
-                ],
-                ephemeral: true,
-              });
+        try {
+          // Find the ticket data
+          const data = await ticketSchema.findOne({
+            GuildID: guildId,
+            ChannelID: channel.id,
+          });
 
-            if (!data.MembersID.includes(member.id))
-              return interaction.reply({
-                embeds: [
-                  embed
-                    .setColor(Red)
-                    .setDescription("Something went wrong. Try again later."),
-                ],
-                ephemeral: true,
-              });
-
-            data.MembersID.remove(member.id);
-
-            channel.permissionOverwrites.edit(member.id, {
-              SendMessages: false,
-              ViewChannel: false,
-              ReadMessageHistory: false,
-            });
-
-            interaction.reply({
+          // If no data is found, reply with an error
+          if (!data) {
+            return interaction.reply({
               embeds: [
                 embed
-                  .setColor(Green)
-                  .setDescription(
-                    `${member} has been removed from the ticket.`
-                  ),
+                  .setColor(Red)
+                  .setDescription("Something went wrong. Try again later."),
               ],
+              ephemeral: true,
             });
-
-            data.save();
           }
-        );
+
+          // Check if the member is not in the ticket
+          if (!data.MembersID.includes(member.id)) {
+            return interaction.reply({
+              embeds: [
+                embed
+                  .setColor(Red)
+                  .setDescription("It looks like the User doesn't have a ticket."),
+              ],
+              ephemeral: true,
+            });
+          }
+
+          // Remove the member from the ticket
+          data.MembersID.pull(member.id); // Use `pull` instead of `remove` for Mongoose arrays
+
+          // Update channel permissions for the member
+          await channel.permissionOverwrites.edit(member.id, {
+            SendMessages: false,
+            ViewChannel: false,
+            ReadMessageHistory: false,
+          });
+
+          // Reply to the interaction
+          await interaction.reply({
+            embeds: [
+              embed
+                .setColor(Green)
+                .setDescription(`${member} has been removed from the ticket.`),
+            ],
+          });
+
+          // Save the updated data
+          await data.save();
+        } catch (err) {
+          console.error(err); // Log the error for debugging
+          interaction.reply({
+            embeds: [
+              embed
+                .setColor(Red)
+                .setDescription(
+                  "An error occurred while processing your request."
+                ),
+            ],
+            ephemeral: true,
+          });
+        }
         break;
     }
   },

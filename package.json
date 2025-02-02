@@ -1,7 +1,7 @@
 {
   "name": "apanker-v2",
   "version": "0.0.1",
-  "description": "A multipurpose discord bot",
+  "description": "A state-of-the-art discord bot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
