@@ -10,9 +10,11 @@ module.exports = {
   async execute(interaction) {
     const { guildId, user } = interaction;
 
-    await afkModel
-      .findOne({ Guild: guildId, UserID: user.id }, async (err, data) => {
-        try {
+    try {
+    const data = await afkModel.findOne(
+      { Guild: guildId, UserID: user.id }
+    );
+    
           if (!data) {
             await afkModel.create({
               Guild: guildId,
@@ -43,7 +45,6 @@ module.exports = {
         } catch (e) {
           console.log(e);
         }
-      })
-      .clone(); // .clone is preventing a mongodb error
+      
   },
 };

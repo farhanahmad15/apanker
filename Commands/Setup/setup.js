@@ -412,9 +412,7 @@ module.exports = {
           const emoji2 = secondbutton[1];
           const emoji3 = thirdbutton[1];
           const emoji4 = fourthbutton[1];
-          console.log(
-            `Parsed emojis: ${emoji1}, ${emoji2}, ${emoji3}, ${emoji4}`
-          );
+
 
           await TicketSetup.findOneAndUpdate(
             { GuildID: guild.id },

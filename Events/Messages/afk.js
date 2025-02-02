@@ -7,13 +7,13 @@ module.exports = {
     async execute(message){
         if(message.author.bot || !message.guild) return;
 
-        afkModel.findOne({Guild: message.guild.id, UserID: message.author.id}, async (err, data) =>{
-            if(data && data.Afk){
-                data.Afk = false;
-                data.save();
+       try {
+         const data  = await afkModel.findOne({Guild: message.guild.id, UserID: message.author.id})
+        
+            if (data?.Afk) {
+              data.Afk = false;
+              data.save();
             }
-            return
-        })
 
         const taggedMembers = message.mentions.users.map(msg => msg.id)
 
@@ -33,5 +33,9 @@ module.exports = {
                 })
             })
         }
+    }
+    catch(e){
+        console.log(e)
+    }
     }
 }
