@@ -56,40 +56,37 @@ module.exports = {
     } else if (interaction.isButton()) {
       const { customId } = interaction;
       if (customId === "approve") {
-        suggestSchema.findOne(
-          { Guild: interaction.guild.id },
-          async (err, data) => {
-            if (!data) return;
-            let suggestionChannel = data.suggestionChannel;
+        const data = await suggestSchema.findOne({ Guild: interaction.guild.id });
 
-            const embedString = JSON.stringify(interaction.message.embeds);
+        if (!data) return;
+        let suggestionChannel = data.suggestionChannel;
 
-            const embeds = JSON.parse(embedString).map(
-              (embedData) => new EmbedBuilder(embedData)
-            );
+        const embedString = JSON.stringify(interaction.message.embeds);
 
-            await interaction.guild.channels.cache
-              .get(suggestionChannel)
-              .send({
-                embeds: embeds,
-              })
-              .then((s) => {
-                s.react("✅");
-                s.react("❌");
-              })
-              .catch((err) => {
-                throw err;
-              });
-
-            await interaction.component.setLabel("Approved");
-
-            // Send the embeds to the channel
-            await interaction.reply({
-              content: ":white_check_mark: | Suggestion successfully sent.",
-              ephemeral: true,
-            });
-          }
+        const embeds = JSON.parse(embedString).map(
+          (embedData) => new EmbedBuilder(embedData)
         );
+
+        await interaction.guild.channels.cache
+          .get(suggestionChannel)
+          .send({
+            embeds: embeds,
+          })
+          .then((s) => {
+            s.react("✅");
+            s.react("❌");
+          })
+          .catch((err) => {
+            throw err;
+          });
+
+        await interaction.component.setLabel("Approved");
+
+        // Send the embeds to the channel
+        await interaction.reply({
+          content: ":white_check_mark: | Suggestion successfully sent.",
+          ephemeral: true,
+        });
       }
 
       if (customId === "verify") {
@@ -114,23 +111,23 @@ module.exports = {
         const verifymodal = interaction.fields.getTextInputValue("verifyInput");
 
         if (verifymodal === verifyMessage) {
-          Schema.findOne({ Guild: interaction.guild.id }, async (err, data) => {
-            if (!data)
-              return interaction.reply({
-                content: "Error please wait",
-                ephemeral: true,
-              });
-            let Role = data.Role;
-            let Unverified = data.Unverified;
+          const data = await Schema.findOne({ Guild: interaction.guild.id });
 
-            const role = await interaction.guild.roles.cache.get(Role); // verified role id
-            const unv = await interaction.guild.roles.cache.get(Unverified);
-            await interaction.member.roles.add(role).catch(() => {});
-            await interaction.member.roles.remove(unv).catch(() => {});
-            await interaction.reply({
-              content: `**You have been verified**, ${role} has been assigned to you and ${unv} has been removed .`,
+          if (!data)
+            return interaction.reply({
+              content: "Error please wait",
               ephemeral: true,
             });
+          let Role = data.Role;
+          let Unverified = data.Unverified;
+
+          const role = await interaction.guild.roles.cache.get(Role); // verified role id
+          const unv = await interaction.guild.roles.cache.get(Unverified);
+          await interaction.member.roles.add(role).catch(() => {});
+          await interaction.member.roles.remove(unv).catch(() => {});
+          await interaction.reply({
+            content: `**You have been verified**, ${role} has been assigned to you and ${unv} has been removed .`,
+            ephemeral: true,
           });
         } else {
           await interaction.reply({
@@ -140,24 +137,28 @@ module.exports = {
           });
         }
       } else if (interaction.customId === "verifymessage") {
-        Schema.findOne({ Guild: interaction.guild.id }, async (err, data) => {
-          let channel = data.Channel;
-          if (!data)
-            return interaction.reply({
-              content: "Error please wait",
-              ephemeral: true,
-            });
-          const message =
-            interaction.fields.getTextInputValue("verifymessageInput");
+        const data = await Schema.findOne({ Guild: interaction.guild.id });
 
-          const verifyEmbed = new EmbedBuilder()
-            .setTitle(
-              "Click the verify button to get verified and get access to all channels"
-            )
-            .setDescription(`${message}`)
-            .setColor("FFAA00");
+        if (!data){
+          return interaction.reply({
+            content: "Error please wait",
+            ephemeral: true,
+          });
+        }
 
-          let sendChannel = interaction.guild.channels.cache.get(channel).send({
+        let channel = data.Channel;
+        const message = interaction.fields.getTextInputValue("verifymessageInput");
+
+        const verifyEmbed = new EmbedBuilder()
+          .setTitle(
+            "Click the verify button to get verified and get access to all channels"
+          )
+          .setDescription(`${message}`)
+          .setColor("FFAA00");
+
+        let sendChannel = await interaction.guild.channels.cache
+          .get(channel)
+          .send({
             embeds: [verifyEmbed],
             components: [
               new ActionRowBuilder().setComponents(
@@ -168,22 +169,21 @@ module.exports = {
               ),
             ],
           });
-          if (!sendChannel) {
-            await interaction
-              .reply({
-                content: "There was an error please try again",
-                ephemeral: true,
-              })
-              .catch(() => {});
-          } else {
-            await interaction
-              .reply({
-                content: "Verification channel was succesfully set!",
-                ephemeral: true,
-              })
-              .catch(() => {});
-          }
-        });
+        if (!sendChannel) {
+          await interaction
+            .reply({
+              content: "There was an error please try again",
+              ephemeral: true,
+            })
+            .catch(() => {});
+        } else {
+          await interaction
+            .reply({
+              content: "Verification channel was succesfully set!",
+              ephemeral: true,
+            })
+            .catch(() => {});
+        }
       }
     } else {
       return;

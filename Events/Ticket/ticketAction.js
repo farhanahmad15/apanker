@@ -7,7 +7,7 @@ const { Red, Blue, Green, Yellow } = require("../../colors");
 
 const { createTranscript } = require("discord-html-transcripts");
 const TicketSetup = require("../../Models/TicketSetup");
-const ticketSchema = require("../../Models/Ticket");
+const Ticket = require("../../Models/Ticket");
 
 module.exports = {
   name: "interactionCreate",
@@ -29,7 +29,7 @@ module.exports = {
     const embed = new EmbedBuilder().setColor("#0099FF");
 
     try {
-      const data = ticketSchema.findOne({ ChannelID: channel.id });
+      const data = await Ticket.findOne({ ChannelID: channel.id });
 
       if (!data) return;
 
@@ -48,11 +48,11 @@ module.exports = {
             returnBuffer: false,
             fileName: `${member.user.username}-ticket${data.Type}-${data.TicketID}.html`,
           });
-          await ticketSchema.updateOne(
+          await Ticket.updateOne(
             { ChannelID: channel.id },
             { Closed: true }
           );
-          const deleted = await ticketSchema.deleteOne({
+          const deleted = await Ticket.deleteOne({
             GuildID: guild.id,
             MemberID: member.id,
           });
@@ -123,7 +123,7 @@ module.exports = {
               ephemeral: true,
             });
 
-          await ticketSchema.updateOne(
+          await Ticket.updateOne(
             { ChannelID: channel.id },
             { Locked: true }
           );
@@ -153,7 +153,7 @@ module.exports = {
               ephemeral: true,
             });
 
-          await ticketSchema.updateOne(
+          await Ticket.updateOne(
             { ChannelID: channel.id },
             { Locked: false }
           );
@@ -183,7 +183,7 @@ module.exports = {
               ephemeral: true,
             });
 
-          await ticketSchema.updateOne(
+          await Ticket.updateOne(
             { ChannelID: channel.id },
             { Claimed: true, ClaimedBy: member.id }
           );

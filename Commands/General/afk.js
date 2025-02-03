@@ -16,11 +16,12 @@ module.exports = {
     );
     
           if (!data) {
-            await afkModel.create({
+           const afk =  await afkModel.create({
               Guild: guildId,
               UserID: user.id,
               Afk: true,
             });
+            afk.save();
           } else if (data.Afk) {
             data.Afk = false;
             data.save();

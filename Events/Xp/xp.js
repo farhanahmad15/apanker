@@ -21,7 +21,7 @@ module.exports = {
 
   async execute(message) {
     if(!message.guild) return
-    const data = Schema.findOne({ Guild: message?.guild.id });
+    const data = await Schema.findOne({ Guild: message?.guild.id });
     if (!data) return console.log("No data");
     let levelingChannel = data.Channel;
 
@@ -35,6 +35,7 @@ module.exports = {
     });
     if (!user) {
       user = new User({ userId: message.author.id, guildId: message.guild.id });
+      await user.save();
     }
 
     // Check if the time elapsed is greater than 60 seconds since the user's last message

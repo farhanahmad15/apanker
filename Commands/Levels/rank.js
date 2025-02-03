@@ -55,7 +55,6 @@ module.exports = {
         ephemeral: true,
       });
     const avatar = await member.displayAvatarURL();
-      console.log(member.id)
 
     const buffer = await Profile(member.id, {
       presenceStatus: `${

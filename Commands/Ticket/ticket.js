@@ -3,7 +3,7 @@ const {
   PermissionFlagsBits,
   EmbedBuilder,
 } = require("discord.js");
-const ticketSchema = require("../../Models/Ticket");
+const Ticket = require("../../Models/Ticket");
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
     switch (action) {
       case "add":
         try {
-          const data = await ticketSchema.findOne({
+          const data = await Ticket.findOne({
             GuildID: guildId,
             ChannelID: channel.id,
           });
@@ -103,7 +103,7 @@ module.exports = {
       case "remove":
         try {
           // Find the ticket data
-          const data = await ticketSchema.findOne({
+          const data = await Ticket.findOne({
             GuildID: guildId,
             ChannelID: channel.id,
           });

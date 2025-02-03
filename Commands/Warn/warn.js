@@ -4,7 +4,7 @@ const {
   EmbedBuilder,
 } = require("discord.js");
 const ms = require("ms");
-const warnSchema = require("../../Models/Warns");
+const Warn = require("../../Models/Warns");
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
 module.exports = {
@@ -31,7 +31,7 @@ module.exports = {
 
     const message = interaction.options.getString("reason");
 
-    let Data = await warnSchema
+    let Data = await Warn
       .findOne({ guildId: interaction.guild.id, userId: target.id })
       .catch(() => {
         console.log("Error");
@@ -42,7 +42,7 @@ module.exports = {
       Data.reason.push(`${message}`);
       Data.save();
     } else {
-      Data = new warnSchema({
+      Data = new Warn({
         guildId: interaction.guild.id,
         userId: target.id,
         reason: [`${message}`],

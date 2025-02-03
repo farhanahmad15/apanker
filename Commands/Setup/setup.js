@@ -10,11 +10,11 @@ const {
   TextInputBuilder,
   TextInputStyle,
 } = require("discord.js");
-const welcomeSchema = require("../../Models/Welcome");
-const verifySchema = require("../../Models/Verify");
-const suggestionSchema = require("../../Models/Suggestion");
-const levelingSchema = require("../../Models/Leveling");
-const muteSchema = require("../../Models/Mute");
+const Welcome = require("../../Models/Welcome");
+const Verify = require("../../Models/Verify");
+const Suggestion = require("../../Models/Suggestion");
+const Leveling = require("../../Models/Leveling");
+const Mute = require("../../Models/Mute");
 const TicketSetup = require("../../Models/TicketSetup");
 const { Red, Blue, Green, Yellow } = require("../../colors");
 
@@ -215,23 +215,19 @@ module.exports = {
             });
           }
 
-          welcomeSchema.findOne(
-            { Guild: interaction.guild.id },
-            async (err, data) => {
-              if (!data) {
-                const newWelcome = await welcomeSchema.create({
-                  Guild: interaction.guild.id,
-                  Channel: welcomeChannel.id,
-                  Msg: welcomeMessage,
-                  Role: roleId.id,
-                });
-              }
-              interaction.reply({
-                content: "Succesfully created a welcome message",
-                ephemeral: true,
-              });
-            }
-          );
+          const data = await Welcome.findOne({ Guild: interaction.guild.id });
+           if (!data) {
+             const newWelcome = await Welcome.create({
+               Guild: interaction.guild.id,
+               Channel: welcomeChannel.id,
+               Msg: welcomeMessage,
+               Role: roleId.id,
+             });
+           }
+           interaction.reply({
+             content: "Succesfully created a welcome message",
+             ephemeral: true,
+           });
         }
 
         break;
@@ -253,19 +249,15 @@ module.exports = {
             });
           }
 
-          verifySchema.findOne(
-            { Guild: interaction.guild.id },
-            async (err, data) => {
-              if (!data) {
-                const newVerify = await verifySchema.create({
-                  Guild: interaction.guild.id,
-                  Role: verifiedRole.id,
-                  Unverified: unverified.id,
-                  Channel: channel.id,
-                });
-              }
-            }
-          );
+         const data =  await Verify.findOne({ Guild: interaction.guild.id });
+         if (!data) {
+           const newVerify = await Verify.create({
+             Guild: interaction.guild.id,
+             Role: verifiedRole.id,
+             Unverified: unverified.id,
+             Channel: channel.id,
+           });
+          }  
 
           const modal = new ModalBuilder()
             .setCustomId("verifymessage")
@@ -298,22 +290,21 @@ module.exports = {
             });
           }
 
-          suggestionSchema.findOne(
-            { Guild: interaction.guild.id },
-            async (err, data) => {
-              if (!data) {
-                const newSuggestion = await suggestionSchema.create({
-                  Guild: interaction.guild.id,
-                  checkingChannel: checkingChannel.id,
-                  suggestionChannel: suggestionChannel.id,
-                });
-              }
-              interaction.reply({
-                content: "Succesfully set suggestion channel",
-                ephemeral: true,
-              });
-            }
-          );
+          const data = await Suggestion.findOne({
+            Guild: interaction.guild.id,
+          });
+
+          if (!data) {
+            const newSuggestion = await Suggestion.create({
+              Guild: interaction.guild.id,
+              checkingChannel: checkingChannel.id,
+              suggestionChannel: suggestionChannel.id,
+            });
+          }
+          interaction.reply({
+            content: "Succesfully set suggestion channel",
+            ephemeral: true,
+          });
         }
         break;
       case "leveling":
@@ -331,21 +322,18 @@ module.exports = {
             });
           }
 
-          levelingSchema.findOne(
-            { Guild: interaction.guild.id },
-            async (err, data) => {
-              if (!data) {
-                const newLeveling = await levelingSchema.create({
-                  Guild: interaction.guild.id,
-                  Channel: levelingChannel.id,
-                });
-              }
-              interaction.reply({
-                content: "Succesfully set level up channel",
-                ephemeral: true,
-              });
-            }
-          );
+          const data = await Leveling.findOne({ Guild: interaction.guild.id });
+
+          if (!data) {
+            const newLeveling = await Leveling.create({
+              Guild: interaction.guild.id,
+              Channel: levelingChannel.id,
+            });
+          }
+          interaction.reply({
+            content: "Succesfully set level up channel",
+            ephemeral: true,
+          });
         }
         break;
       case "mute":
@@ -363,21 +351,18 @@ module.exports = {
             });
           }
 
-          muteSchema.findOne(
-            { Guild: interaction.guild.id },
-            async (err, data) => {
-              if (!data) {
-                const newMute = await muteSchema.create({
-                  Guild: interaction.guild.id,
-                  Role: roleId.id,
-                });
-              }
-              interaction.reply({
-                content: "Succesfully setup the muting system",
-                ephemeral: true,
-              });
-            }
-          );
+          const data = await Mute.findOne({ Guild: interaction.guild.id });
+
+          if (!data) {
+            const newMute = await Mute.create({
+              Guild: interaction.guild.id,
+              Role: roleId.id,
+            });
+          }
+          interaction.reply({
+            content: "Succesfully setup the muting system",
+            ephemeral: true,
+          });
         }
         break;
       case "ticket": {
@@ -407,12 +392,10 @@ module.exports = {
             .split(",")
             .map((s) => s.trim());
 
-          console.log(``);
           const emoji1 = firstbutton[1];
           const emoji2 = secondbutton[1];
           const emoji3 = thirdbutton[1];
           const emoji4 = fourthbutton[1];
-
 
           await TicketSetup.findOneAndUpdate(
             { GuildID: guild.id },

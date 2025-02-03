@@ -34,8 +34,13 @@ module.exports = {
         content: "You are on command cooldown, try again in 1 hour",
         ephemeral: true,
       });
-    Schema.findOne({ Guild: interaction.guild.id }, async (err, data) => {
-      if (!data) return interaction.reply({content: "This function has not been set up in this server.", ephemeral: true});
+    const data = await Schema.findOne({ Guild: interaction.guild.id });
+    
+      if (!data)
+        return interaction.reply({
+          content: "This function has not been set up in this server.",
+          ephemeral: true,
+        });
       let checkingChannel = data.checkingChannel;
 
       const confirm = new ButtonBuilder()
@@ -71,7 +76,7 @@ module.exports = {
           ":white_check_mark: | Your suggestion has been succesfully submitted for the moderators to check.",
         ephemeral: true,
       });
-    });
+    
 
     timeout.push(interaction.user.id);
     setTimeout(() => {
